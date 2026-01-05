@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
-
 function App() {
+
+  const connectWallet = async () => {
+    if (window.ethereum) {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts"
+      });
+      alert("Wallet Connected: " + accounts[0]);
+    } else {
+      alert("Please install MetaMask");
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: "40px", fontFamily: "Arial" }}>
+      <h1>NFT Marketplace</h1>
+      <p>Welcome to my decentralized NFT marketplace project.</p>
+      <button onClick={connectWallet}>Connect Wallet</button>
     </div>
   );
 }
 
 export default App;
+
