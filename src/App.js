@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { useState } from "react";
 
 /* 🔴 STEP A: CONTRACT ADDRESS (we will fill later) */
-const contractAddress = " 0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
+const contractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3";
 
 /* 🔴 STEP B: CONTRACT ABI (we will paste later) */
 const contractABI = [
@@ -545,6 +545,26 @@ function App() {
 
     setAccount(accounts[0]);
   }
+  async function mintNFT() {
+  if (!window.ethereum) {
+    alert("MetaMask not found");
+    return;
+  }
+
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  const signer = await provider.getSigner();
+
+  const contract = new ethers.Contract(
+    contractAddress,
+    contractABI,
+    signer
+  );
+
+  const tx = await contract.mintNFT(account);
+  await tx.wait();
+
+  alert("NFT Minted Successfully!");
+}
 
   return (
     <div style={{ padding: "40px" }}>
@@ -553,9 +573,14 @@ function App() {
       {!account ? (
         <button onClick={connectWallet}>Connect Wallet</button>
       ) : (
-        <p>Connected Wallet: {account}</p>
-      )}
+        <>
+          <p>Connected Wallet: {account}</p>
+          <button onClick={mintNFT}>Mint NFT</button>
+        </>
+      )
+      }
     </div>
+    
   );
 }
 
